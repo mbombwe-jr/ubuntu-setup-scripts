@@ -102,7 +102,7 @@ apt_update() {
 
 apt_install() {
   wait_for_apt
-  apt-get -o DPkg::Lock::Timeout=300 -y "$@"
+  apt-get -o DPkg::Lock::Timeout=300 -y install "$@"
 }
 
 install_prereqs() {
