@@ -35,6 +35,27 @@ Every step is idempotent: already-installed tools are detected and skipped, so t
 - Ubuntu (the script exits with an error on other distributions)
 - `root` (the script uses `sudo bash`, which is enough)
 
+## Troubleshooting
+
+**"apt/dpkg lock busy"** — another apt process (often `unattended-upgrades`, `apt-daily` or a running
+`apt-get upgrade`) holds the lock. The script now waits for it (up to 5 minutes) and prints the
+process holding the lock. To free it:
+
+```bash
+systemctl stop unattended-upgrades
+systemctl stop apt-daily.service apt-daily-upgrade.service
+ps aux | grep -E 'apt|dpkg' | grep -v grep
+```
+
+Give the script more time with `APT_LOCK_TIMEOUT=600`:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/mbombwe-jr/ubuntu-setup-scripts/main/install-ubuntu-basics.sh | sudo APT_LOCK_TIMEOUT=600 bash
+```
+
+**Any other apt failure** is now printed in full instead of being hidden behind a retry loop, so a
+broken repo or a network problem shows the actual apt error.
+
 ## After installing
 
 ```bash
