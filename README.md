@@ -56,6 +56,13 @@ curl -fsSL https://raw.githubusercontent.com/mbombwe-jr/ubuntu-setup-scripts/mai
 **Any other apt failure** is now printed in full instead of being hidden behind a retry loop, so a
 broken repo or a network problem shows the actual apt error.
 
+**Stale script?** `raw.githubusercontent.com` caches for up to 5 minutes, so a freshly pushed fix may
+not show up immediately. Bust the cache:
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/mbombwe-jr/ubuntu-setup-scripts/main/install-ubuntu-basics.sh?v=$(date +%s)" | sudo bash
+```
+
 ## After installing
 
 ```bash
